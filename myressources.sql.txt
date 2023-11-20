@@ -1,0 +1,87 @@
+CREATE DATABASE myressources
+
+CREATE TABLE utilisateur(
+    user_id int PRIMARY KEY AUTOINCREMENT,
+    name varchar(255),
+    email varchar(255),
+    squad_id int,
+    role varchar(255)  
+);
+
+CREATE TABLE squad(
+    squad_id int PRIMARY KEY AUTOINCREMENT
+    name varchar(255)
+    projet_id int; 
+
+);
+
+CREATE TABLE projet(
+    projet_id int PRIMARY KEY AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    description varchar(255) NOT NULL,
+    date_debut DATE,
+    date_fin DATE,
+    ressources_id int
+);
+
+CREATE TABLE ressources(
+    ressources_id int PRIMARY KEY AUTO_INCREMENT,
+    ressources_name varchar(255) NOT NULL,
+    subcategory_id int
+);
+
+CREATE TABLE subcategory(
+    subcategory_id int PRIMARY KEY AUTO_INCREMENT,
+    subcategory_name varchar(255) NOT NULL,
+    category_id int
+);
+
+CREATE TABLE category(
+	category_id int PRIMARY KEY AUTO_INCREMENT,
+    category_name varchar(255) NOT NULL
+);
+
+ALTER TABLE utilisateur ADD CONSTRAINT Csquad FOREIGN KEY(squad_id) REFERENCES squad(squad_id);
+
+ALTER TABLE squad ADD CONSTRAINT Cprojet FOREIGN KEY(projet_id) REFERENCES projet(projet_id);
+
+ALTER TABLE projet ADD CONSTRAINT Cressources FOREIGN KEY(ressources_id) REFERENCES ressources(ressources_id);
+
+ALTER TABLE ressources ADD CONSTRAINT Csubcategory FOREIGN KEY(subcategory_id) REFERENCES subcategory(subcategory_id);
+
+ALTER TABLE subcategory ADD CONSTRAINT Ccategory FOREIGN KEY(category_id) REFERENCES category(category_id);
+
+INSERT INTO utilisateur(name, email, role, squad_id)VALUES('hamza ezzhar', 'hamza.ezzhar@gmail.com', 'user', 4),
+('abdollah', 'abdollah@gmail.com', 'squad_leader', 4),
+('aicha', 'aicha@gmail.com', 'user', 4),
+('youness', 'youness@gmail.com', 'user', 4)
+
+INSERT INTO utilisateur(name, email, role, squad_id)VALUES('oumaima', 'oumaima@gmail.com', 'user', 5),
+('abdeljalil', 'abdeljalil@gmail.com', 'user', 5),
+('rabie', 'rabie@gmail.com', 'squad_leader', 5),
+('hiddou', 'hiddou@gmail.com', 'user', 5)
+
+
+INSERT INTO projet(name, description, date_debut, date_fin)VALUES('portpholio', 'creer votre propre portpholio en utilisant(html, css, js)', '2023-09-05', '2023-09-20'),
+('ecom web-site', 'creer un site ecom en utilisant(html, css, js)', '2023-09-23', '2023-10-10'),
+('myressources', 'creer un base de donnes', '2023-10-15', '2030-10-30')
+
+INSERT INTO category(category_name)VALUES('video'),
+('articles'),
+('courses')
+
+INSERT INTO subcategory(subcategory_name, category_id) VALUES('vd_tutoriel', 1),
+('vd_expliquation', 1),
+('vd_challenge', 1),
+('artcl_generale', 2),
+('artcl_specifier', 2),
+('artcl_complexe', 2),
+('visuel_course', 3),
+('audio_course', 3),
+('pdf_course', 3)
+
+
+
+SELECT utilisateur.name, squad.name FROM utilisateur JOIN squad ON utilisateur.squad_id = squad.squad_id
+
+SELECT subcategory.subcategory_name, category.category_name FROM subcategory JOIN category ON subcategory.category_id = category.category_id
